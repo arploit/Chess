@@ -48,7 +48,7 @@ public abstract class Tile { // this is the abstract class which represent  Enti
 public static  final class EmptyTile extends Tile {
 
     /*There is no such piece on that coordinate that's why no extra variable*/
-    EmptyTile(final int Coordinate) {
+    private  EmptyTile(final int Coordinate) {
         super(Coordinate);
     }
 
@@ -64,9 +64,9 @@ public static  final class EmptyTile extends Tile {
 }
 
 public final class OccupiedTile extends Tile {
-    Piece pieceOnTile; /*the difference in this class this fetches piece coordinate*/
+    private final Piece pieceOnTile; /*the difference in this class this fetches piece coordinate*/
 
-    OccupiedTile(int tileCoordinate, Piece pieceOnTile) {
+    private OccupiedTile(int tileCoordinate, Piece pieceOnTile) {
          /* super keyword is used to refer the immediate parent class object, variable */
         super(tileCoordinate);
         this.pieceOnTile = pieceOnTile;
