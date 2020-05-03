@@ -1,14 +1,38 @@
 package chess.board;
 
 import chess.Piece.Piece;
-import org.w3c.dom.ls.LSOutput;
+import com.google.common.collect.ImmutableMap;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public abstract class Tile { // this is the abstract class which represent  Entity tile
     // this variables stores the tile coordinate
-    int tileCoordinate;
+    protected final int tileCoordinate; //making class immutable so that no one can excess  it from outside
 
-    Tile(int tileCoordinate) {
+
+
+     private static final Map<Integer,EmptyTile> Empty_Tile = createAllpossibleEmptyTiles(); //function to create
+
+    private static Map<Integer, EmptyTile> createAllpossibleEmptyTiles() {
+
+        final Map<Integer,EmptyTile> emptyTileMap = new HashMap<>();
+
+        for(int i= 0 ; i<64;i++)
+        {
+            emptyTileMap.put(i,new EmptyTile(i));
+        }
+
+        return ImmutableMap.copyOf(emptyTileMap);
+
+    }
+
+    public static Tile createTile(final int tileCoordinate, final Piece piece){
+        return piece != null? new OccupiedTile(tileCoordinate,piece): Empty_Tile.get(tileCoordinate);
+
+    }
+
+    private Tile( int tileCoordinate) {
         //sets the value for the tile coordinate
         this.tileCoordinate = tileCoordinate;
     }
@@ -24,7 +48,7 @@ public abstract class Tile { // this is the abstract class which represent  Enti
 public static  final class EmptyTile extends Tile {
 
     /*There is no such piece on that coordinate that's why no extra variable*/
-    EmptyTile(int Coordinate) {
+    EmptyTile(final int Coordinate) {
         super(Coordinate);
     }
 
@@ -39,7 +63,7 @@ public static  final class EmptyTile extends Tile {
     }
 }
 
-public static final class OccupiedTile extends Tile {
+public final class OccupiedTile extends Tile {
     Piece pieceOnTile; /*the difference in this class this fetches piece coordinate*/
 
     OccupiedTile(int tileCoordinate, Piece pieceOnTile) {
