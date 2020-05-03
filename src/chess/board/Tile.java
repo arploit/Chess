@@ -12,7 +12,7 @@ public abstract class Tile { // this is the abstract class which represent  Enti
 
 
 
-     private static final Map<Integer,EmptyTile> Empty_Tile = createAllpossibleEmptyTiles(); //function to create
+     private static final Map<Integer,EmptyTile> Empty_Tiles_Cache = createAllpossibleEmptyTiles(); //function to create
 
     private static Map<Integer, EmptyTile> createAllpossibleEmptyTiles() {
 
@@ -28,7 +28,7 @@ public abstract class Tile { // this is the abstract class which represent  Enti
     }
 
     public static Tile createTile(final int tileCoordinate, final Piece piece){
-        return piece != null? new OccupiedTile(tileCoordinate,piece): Empty_Tile.get(tileCoordinate);
+        return piece != null? new OccupiedTile(tileCoordinate,piece): Empty_Tiles_Cache.get(tileCoordinate);
 
     }
 
@@ -66,7 +66,7 @@ public static  final class EmptyTile extends Tile {
 public final class OccupiedTile extends Tile {
     private final Piece pieceOnTile; /*the difference in this class this fetches piece coordinate*/
 
-    private OccupiedTile(int tileCoordinate, Piece pieceOnTile) {
+    private OccupiedTile(int tileCoordinate, Piece pieceOnTile) { /*Making subclass Constructor Private*/
          /* super keyword is used to refer the immediate parent class object, variable */
         super(tileCoordinate);
         this.pieceOnTile = pieceOnTile;
