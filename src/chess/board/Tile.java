@@ -9,7 +9,13 @@ import java.util.Map;
 public abstract class Tile { // this is the abstract class which represent  Entity tile
     // this variables stores the tile coordinate
     protected final int tileCoordinate; //making class immutable so that no one can excess  it from outside
-
+/*
+*  Immutability:
+*   Immutability is a design pattern where something  can't be modified after being instantiated
+*
+*
+*
+* */
 
 
      private static final Map<Integer,EmptyTile> Empty_Tiles_Cache = createAllpossibleEmptyTiles(); //function to create

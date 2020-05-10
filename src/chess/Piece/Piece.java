@@ -17,5 +17,10 @@ public abstract class Piece {
         this.piecePosition = piecePosition; /*assigning Piece Position on the Chess board*/
     }
 
+    public Alliance getPieceAlliance(){
+        return this.pieceAlliance;
+
+    }
+
     public abstract List<Move> calculateLegalMoves(final Board Board); /*abstract class to declare the List of legal Moves*/
 }
