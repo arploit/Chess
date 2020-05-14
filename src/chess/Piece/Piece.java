@@ -5,7 +5,7 @@ import chess.Alliance;
 import chess.board.Board;
 import chess.board.Move;
 
-import java.util.List;
+import java.util.Collection;
 
 public abstract class Piece {
 
@@ -21,6 +21,14 @@ public abstract class Piece {
         return this.pieceAlliance;
 
     }
+    /*A Collection is a group of individual objects represented as a single unit.
+    *Java provides Collection Framework which defines several classes and interfaces to represent a group of objects as a single unit
+    *
+    * *Before Collection Framework (or before JDK 1.2) was introduced,
+    *the standard methods for grouping Java objects (or collections) were Arrays or Vectors or Hashtables.
+    *All of these collections had no common interface.
+    *Accessing elements of these Data Structures was a hassle
+    * as each had a different method (and syntax) for accessing its members*/
 
-    public abstract List<Move> calculateLegalMoves(final Board Board); /*abstract class to declare the List of legal Moves*/
+    public abstract Collection<Move> calculateLegalMoves(final Board board); /*abstract class to declare the List of legal Moves*/
 }

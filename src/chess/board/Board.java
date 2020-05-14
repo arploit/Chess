@@ -1,7 +1,7 @@
 package chess.board;
 
 public class Board {
-    public Tile getTIle (final int tileCoordinate){
+    public Tile getTile (final int tileCoordinate){
          return null;
 
     }

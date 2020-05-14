@@ -2,11 +2,13 @@ package chess.Piece;
 
 import chess.Alliance;
 import chess.board.Board;
+import chess.board.BoardUtils;
 import chess.board.Move;
 import chess.board.Tile;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Knight extends Piece {
@@ -19,15 +21,28 @@ public class Knight extends Piece {
     }
 
     @Override
-    public List<Move> calculateLegalMoves(Board Board) {
+    public Collection<Move> calculateLegalMoves(Board board) {
 
-        int candidateDestinationCoordinate;
         final List<Move> legalMoves = new ArrayList<>();
 
-        for(final int currentCanditate : CANDIDATES_MOVE_COORDINATES) {
+        for(final int currentCanditateOffset : CANDIDATES_MOVE_COORDINATES) {
 
-            candidateDestinationCoordinate = this.piecePosition + currentCanditate;
-            if (true /*isValidCoordinate*/) {
+         final  int candidateDestinationCoordinate = this.piecePosition + currentCanditateOffset;
+         /*candidateDestinationCoordinate will take more space
+         * but will be local so easy to access
+         * */
+            if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
+
+                /*if any of the edge cases failes loop will not work*/
+
+                if (isFirstColumnExclusion(this.piecePosition, currentCanditateOffset) ||
+                        isSeconColumnExclusion(this.piecePosition, currentCanditateOffset) ||
+                        isSeventhColumnExclusion(this.piecePosition, currentCanditateOffset) ||
+                        isEighthColumnExclusion(this.piecePosition, currentCanditateOffset)) {
+                    continue;
+                }
+
+
                 final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
                 if (!candidateDestinationTile.istileOccupied()) {
                     legalMoves.add(new Move());
@@ -43,4 +58,48 @@ public class Knight extends Piece {
         }
         return ImmutableList.copyOf(legalMoves);
     }
+
+    /*These function will tell if knight is not moving against its edge cases
+    * Every offset is the edge case in which knight move would be illegal
+    * */
+
+    private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset){
+        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -17 || candidateOffset == -10
+                || candidateOffset == 6 || candidateOffset == 15);
+    }
+
+    private static boolean isSeconColumnExclusion(final int currentPosition, final int candidateOffset){
+        return BoardUtils.SECOND_COLUMN[currentPosition] && (candidateOffset == -10 || candidateOffset == 6);
+    }
+
+    private static boolean isSeventhColumnExclusion(final int currentPosition, final int candidateOffset){
+        return BoardUtils.SEVENTH_COLUMN[currentPosition] && (candidateOffset == -6 || candidateOffset == 10);
+    }
+
+    private static boolean isEighthColumnExclusion (final int currentPosition, final int candidateOffset){
+        return  BoardUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == -15 || candidateOffset == -6
+                || candidateOffset == 10 || candidateOffset == 17);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
