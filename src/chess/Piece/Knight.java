@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static chess.board.Move.*;
+
 public class Knight extends Piece {
     
     private final static int [] CANDIDATES_MOVE_COORDINATES = {-17,-15,-10,-6,6,10,15,17};/*ALL THE LEGAL MOVES KNIGHT CAN TAKE*/
@@ -21,7 +23,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public Collection<Move> calculateLegalMoves(Board board) {
+    public Collection<Move> calculateLegalMoves(final Board board) {
 
         final List<Move> legalMoves = new ArrayList<>();
 
@@ -45,13 +47,14 @@ public class Knight extends Piece {
 
                 final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
                 if (!candidateDestinationTile.istileOccupied()) {
-                    legalMoves.add(new Move());
+                    boolean add = legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                    /*Added move if there is no Piece on the Tile*/
                 } else {
                     final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                     final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                     if (this.pieceAlliance != pieceAlliance) {
-                        legalMoves.add(new Move());
-
+                        legalMoves.add(new AttackMove(board,this, candidateDestinationCoordinate ,pieceAtDestination));
+                        /*Added move if there is a Piece on the Tile*/
                     }
                 }
             }
