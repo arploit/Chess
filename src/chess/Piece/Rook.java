@@ -4,7 +4,6 @@ import chess.Alliance;
 import chess.board.Board;
 import chess.board.BoardUtils;
 import chess.board.Move;
-import chess.board.Move.MajorMove;
 import chess.board.Tile;
 import com.google.common.collect.ImmutableList;
 
@@ -12,19 +11,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static chess.board.Move.*;
-
 /**
  * Created for Chess on May,2020
  */
+public class Rook extends Piece {
 
+    private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATE = {-8, -1, 1, 8};
 
-public class Bishop extends Piece {
-    private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATE = {-9, -7, 7, 9};
-
-    Bishop(int piecePosition, Alliance pieceAlliance) {
+      Rook(int piecePosition, Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
+
 
     @Override
     public Collection<Move> calculateLegalMoves( final Board board) {
@@ -40,12 +37,12 @@ public class Bishop extends Piece {
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                     final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
                     if (!candidateDestinationTile.istileOccupied()) {
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                        legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
                     } else {
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if (this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
+                            legalMoves.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                         }
                         break;
                     }
@@ -59,11 +56,10 @@ public class Bishop extends Piece {
     }
 
     private boolean isEightColumnExclusion(int currentPosition, int candidateOffset) {
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset == 9);
+        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -1);
     }
 
     private boolean isFirstColumnExclusion(int currentPosition, int candidateOffset) {
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == 7);
+        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == 1);
     }
-
 }
